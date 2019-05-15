@@ -1,0 +1,12 @@
+{	
+  "redis": {
+    "host": "redis",
+    "port": 6379,
+    "auto_reconnect": true
+  },
+  "api": {
+    "host": "localhost",
+    "bind": "0.0.0.0",
+    "port": 4567
+  }
+}

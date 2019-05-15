@@ -64,7 +64,12 @@ RUN sensu-install -p cpu-checks \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
 
-EXPOSE 3030
+COPY config/transport.json /etc/sensu/conf.d/
+COPY config/client-local.json /etc/sensu/conf.d/
+COPY config/redis.json /etc/sensu/conf.d/
+COPY config/checks.json /etc/sensu/conf.d/
+
+EXPOSE 3000
 EXPOSE 4567
 
 VOLUME ["/etc/sensu/conf.d"]

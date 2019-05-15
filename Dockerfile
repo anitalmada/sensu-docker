@@ -64,6 +64,13 @@ RUN sensu-install -p cpu-checks \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
 
+COPY config/transport.json /etc/sensu/conf.d/
+COPY config/redis.json /etc/sensu/conf.d/
+COPY config/checks.json /etc/sensu/conf.d/
+COPY config/api.json /etc/sensu/conf.d/
+COPY uchiwa.json /etc/sensu/
+COPY config.json /etc/sensu/
+
 EXPOSE 4567
 EXPOSE 3000
 
