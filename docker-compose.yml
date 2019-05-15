@@ -26,8 +26,17 @@ services:
       context: .
       dockerfile: Dockerfile.client
     image: sensu-client
+    networks:
+      - sensu_net
+  rabbitmq:
+    image:       rabbitmq
+    hostname:    rabbitmq
+    restart:     unless-stopped
+    env_file:
+      - rabbitmq-server/rabbitmq.env
     ports:
-      - "3030:3030"
+      - "5672:5672"   # daemon API
+      - "15672:15672" # management API
     networks:
       - sensu_net
 networks:

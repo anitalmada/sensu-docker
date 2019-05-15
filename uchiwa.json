@@ -1,7 +1,7 @@
 {
    "sensu": [
      {
-       "name": "sensu",
+       "name": "sensu-docker",
        "host": "sensu",
        "port": 4567,
        "timeout": 10000

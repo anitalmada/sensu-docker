@@ -28,9 +28,9 @@ ENV CLIENT_SUBSCRIPTIONS=all \
     TRANSPORT_NAME=redis \
     RABBITMQ_PORT=5672 \
     RABBITMQ_HOST=rabbitmq \
-    RABBITMQ_USER=guest \
-    RABBITMQ_PASSWORD=guest \
-    RABBITMQ_VHOST=/ \
+    RABBITMQ_USER=sensu \
+    RABBITMQ_PASSWORD=sensu \
+    RABBITMQ_VHOST=/sensu \
     RABBITMQ_PREFETCH=1 \
     RABBITMQ_SSL_SUPPORT=false \
     RABBITMQ_SSL_CERT='' \
@@ -75,4 +75,4 @@ COPY config.json /etc/sensu/
 EXPOSE 4567
 EXPOSE 3000
 
-CMD ["/opt/sensu/bin/sensu"]
+CMD ["/opt/sensu/bin/sensu-client"]
