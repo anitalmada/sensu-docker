@@ -72,6 +72,4 @@ COPY config/checks.json /etc/sensu/conf.d/
 EXPOSE 3000
 EXPOSE 4567
 
-VOLUME ["/etc/sensu/conf.d"]
-
 CMD ["/opt/sensu/bin/sensu-client"]

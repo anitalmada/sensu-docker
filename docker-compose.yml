@@ -17,16 +17,23 @@ services:
       - redis
     ports:
       - '4567:4567'  
-      - '3000:3000'  
     networks:
       - sensu_net
   sensu-client:
     hostname: sensu-client
     build:
       context: .
-      dockerfile: Dockerfile-client
+      dockerfile: Dockerfile.client
     image: sensu-client
+    ports:
+      - '3030:3030'
     networks:
       - sensu_net
+  uchiwa:
+    image: sstarcher/uchiwa
+    networks:
+      - sensu_net
+    ports:
+      - '3000:3000'
 networks:
   sensu_net:
