@@ -1,0 +1,32 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    restart: always
+    command: redis-server --appendonly yes
+    ports:
+      - '6379:6379'
+    networks:
+      - sensu_net
+  sensu:
+    hostname: sensu-server
+    build: .
+    image: sensu
+    restart: always 
+    depends_on:
+      - redis
+    ports:
+      - '4567:4567'  
+      - '3000:3000'  
+    networks:
+      - sensu_net
+  sensu-client:
+    hostname: sensu-client
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    image: sensu-client
+    networks:
+      - sensu_net
+networks:
+  sensu_net:

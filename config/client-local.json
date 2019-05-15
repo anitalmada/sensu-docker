@@ -1,0 +1,9 @@
+{
+  "client": {
+    "name": "sensu-client",
+    "address": "sensu-client",
+    "subscriptions": [
+	    "ALL"
+    ]
+  }
+}
