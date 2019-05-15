@@ -5,7 +5,7 @@ services:
     restart: always
     command: redis-server --appendonly yes
     ports:
-      - '6379:6379'
+      - "6379:6379"
     networks:
       - sensu_net
   sensu:
@@ -15,10 +15,11 @@ services:
     restart: always 
     depends_on:
       - redis
-    ports:
-      - '4567:4567'  
     networks:
       - sensu_net
+    ports:
+      - "4567:4567"  
+      - "3000:3000"
   sensu-client:
     hostname: sensu-client
     build:
@@ -26,14 +27,9 @@ services:
       dockerfile: Dockerfile.client
     image: sensu-client
     ports:
-      - '3030:3030'
+      - "3030:3030"
     networks:
       - sensu_net
-  uchiwa:
-    image: sstarcher/uchiwa
-    networks:
-      - sensu_net
-    ports:
-      - '3000:3000'
 networks:
   sensu_net:
+    driver: bridge

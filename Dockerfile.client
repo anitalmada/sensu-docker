@@ -21,7 +21,7 @@ RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
     find /opt/sensu/embedded/lib/ruby/gems/ -name "*.o" -delete
 
 # Runtime Config
-ENV CLIENT_SUBSCRIPTIONS=all,default \
+ENV CLIENT_SUBSCRIPTIONS=all \
     CLIENT_BIND=127.0.0.1 \
     CLIENT_DEREGISTER=true \
     # Transport & datastore
@@ -42,12 +42,8 @@ ENV CLIENT_SUBSCRIPTIONS=all,default \
     REDIS_RECONNECT_ON_ERROR=false \
     # Common config
     LOG_LEVEL=warn \
-    CONFIG_FILE=/etc/sensu/config.json \
     CONFIG_DIR=/etc/sensu/conf.d \
-    CHECK_DIR=/etc/sensu/check.d \
-    EXTENSION_DIR=/etc/sensu/extensions \
     PLUGINS_DIR=/etc/sensu/plugins \
-    HANDLERS_DIR=/etc/sensu/handlers \
     # Config for gathering host metrics
     HOST_DEV_DIR=/dev \
     HOST_PROC_DIR=/proc \
@@ -59,7 +55,8 @@ ENV CLIENT_SUBSCRIPTIONS=all,default \
     # -W0 avoids Sensu process output to be spoiled with ruby 2.4 warnings
     RUBYOPT=-W0
 
-RUN sensu-install -p cpu-checks \
+RUN chown -R sensu:sensu /etc/sensu \
+    && sensu-install -p cpu-checks \
     && sensu-install -p disk-checks \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
@@ -70,6 +67,5 @@ COPY config/redis.json /etc/sensu/conf.d/
 COPY config/checks.json /etc/sensu/conf.d/
 
 EXPOSE 3000
-EXPOSE 4567
 
-CMD ["/opt/sensu/bin/sensu-client"]
+CMD ["/opt/sensu/bin/"]

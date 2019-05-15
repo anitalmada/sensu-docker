@@ -14,7 +14,7 @@ gpgkey=https://repositories.sensuapp.org/yum/pubkey.gpg\n\
 gpgcheck=1\n\
 enabled=1' | tee /etc/yum.repos.d/sensu.repo
 
-RUN yum install -y sensu-${sensu_release}.el7.x86_64
+RUN yum install -y sensu-${sensu_release}.el7.x86_64 uchiwa
 
 # Cleanup
 RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
@@ -59,7 +59,8 @@ ENV CLIENT_SUBSCRIPTIONS=all \
     # -W0 avoids Sensu process output to be spoiled with ruby 2.4 warnings
     RUBYOPT=-W0
 
-RUN sensu-install -p cpu-checks \
+RUN chown -R sensu:sensu /etc/sensu \
+    && sensu-install -p cpu-checks \
     && sensu-install -p disk-checks \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
@@ -74,4 +75,4 @@ COPY config.json /etc/sensu/
 EXPOSE 4567
 EXPOSE 3000
 
-CMD ["/opt/sensu/bin/sensu-client"]
+CMD ["/opt/sensu/bin/sensu"]
