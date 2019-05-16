@@ -64,11 +64,11 @@ RUN chown -R sensu:sensu /etc/sensu \
 COPY config/transport.json /etc/sensu/conf.d/
 COPY config/redis.json /etc/sensu/conf.d/
 COPY config/checks.json /etc/sensu/conf.d/
-COPY config/api.json /etc/sensu/conf.d/
 COPY config/rabbitmq.json /etc/sensu/conf.d/
 COPY config.json /etc/sensu/
+COPY config/config.json /etc/sensu/uchiwa.json
 
 EXPOSE 4567
 EXPOSE 3000
 
-CMD ["/opt/sensu/bin/sensu-client"]
+CMD ["/opt/sensu/bin/sensu-server"]
