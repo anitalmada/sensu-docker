@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   redis:
     image: redis
@@ -19,7 +19,8 @@ services:
       - sensu_net
     ports:
       - "4567:4567"  
-      - "3000:3000"
+    expose:
+      - "4567"
   sensu-client:
     hostname: sensu-client
     build:
@@ -39,6 +40,15 @@ services:
       - "15672:15672" # management API
     networks:
       - sensu_net
+  uchiwa:
+    image:       uchiwa/uchiwa
+    hostname:    uchiwa
+    restart:     unless-stopped
+    volumes:     
+      - ./config:/config
+    ports:
+      - "3000:3000"
+    networks:
+      - sensu_net
 networks:
   sensu_net:
-    driver: bridge

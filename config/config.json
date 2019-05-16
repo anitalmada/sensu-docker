@@ -1,0 +1,16 @@
+{
+   "sensu": [
+     {
+       "name": "sensu",
+       "host": "sensu",
+       "port": 4567,
+       "timeout": 10000
+     }
+   ],
+   "uchiwa": {
+     "host": "sensu",
+     "port": 3000,
+     "stats": 10,
+     "refresh": 10
+   }
+ }

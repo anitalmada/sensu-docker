@@ -62,6 +62,6 @@ COPY config/client-local.json /etc/sensu/conf.d/client.json
 COPY config/redis.json /etc/sensu/conf.d/
 COPY config/checks.json /etc/sensu/conf.d/
 
-EXPOSE 3000
+EXPOSE 3030
 
 CMD ["/opt/sensu/bin/sensu-client"]
