@@ -33,7 +33,7 @@ services:
     hostname:    rabbitmq
     restart:     unless-stopped
     env_file:
-      - rabbitmq-server/rabbitmq.env
+      - rabbitmq.env
     ports:
       - "5672:5672"   # daemon API
       - "15672:15672" # management API

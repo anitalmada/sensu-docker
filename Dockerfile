@@ -21,11 +21,7 @@ RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
     find /opt/sensu/embedded/lib/ruby/gems/ -name "*.o" -delete
 
 # Runtime Config
-ENV CLIENT_SUBSCRIPTIONS=all \
-    CLIENT_BIND=127.0.0.1 \
-    CLIENT_DEREGISTER=true \
-    # Transport & datastore
-    TRANSPORT_NAME=redis \
+ENV TRANSPORT_NAME=rabbitmq \
     RABBITMQ_PORT=5672 \
     RABBITMQ_HOST=rabbitmq \
     RABBITMQ_USER=sensu \
@@ -69,7 +65,8 @@ COPY config/transport.json /etc/sensu/conf.d/
 COPY config/redis.json /etc/sensu/conf.d/
 COPY config/checks.json /etc/sensu/conf.d/
 COPY config/api.json /etc/sensu/conf.d/
-COPY uchiwa.json /etc/sensu/
+COPY config/rabbitmq.json /etc/sensu/conf.d/
+COPY uchiwa.json /etc/sensu/dashboard.d/
 COPY config.json /etc/sensu/
 
 EXPOSE 4567

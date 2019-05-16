@@ -1,4 +1,3 @@
-
 FROM centos:centos7.5.1804
 
 LABEL vendor="Sensu Inc."
@@ -21,11 +20,7 @@ RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
     find /opt/sensu/embedded/lib/ruby/gems/ -name "*.o" -delete
 
 # Runtime Config
-ENV CLIENT_SUBSCRIPTIONS=all \
-    CLIENT_BIND=127.0.0.1 \
-    CLIENT_DEREGISTER=true \
-    # Transport & datastore
-    TRANSPORT_NAME=redis \
+ENV TRANSPORT_NAME=rabbitmq \
     RABBITMQ_PORT=5672 \
     RABBITMQ_HOST=rabbitmq \
     RABBITMQ_USER=sensu \
@@ -62,6 +57,7 @@ RUN chown -R sensu:sensu /etc/sensu \
     && sensu-install -p memory-checks
 
 COPY config/transport.json /etc/sensu/conf.d/
+COPY config/rabbitmq.json /etc/sensu/conf.d/
 COPY config/client-local.json /etc/sensu/conf.d/client.json
 COPY config/redis.json /etc/sensu/conf.d/
 COPY config/checks.json /etc/sensu/conf.d/
