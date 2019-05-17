@@ -1,20 +1,13 @@
+FROM ubuntu:18.04
 
-FROM centos:centos7.5.1804
+ARG DEBIAN_FRONTEND=noninteractive
 
-LABEL vendor="Sensu Inc."
-MAINTAINER Sensu Inc. "engineering@sensu.io"
-
-ARG sensu_release=1.5.0-1
-
-# Install Sensu
-RUN echo $'[sensu]\n\
-name=sensu\n\
-baseurl=https://sensu.global.ssl.fastly.net/yum/$releasever/$basearch/\n\
-gpgkey=https://repositories.sensuapp.org/yum/pubkey.gpg\n\
-gpgcheck=1\n\
-enabled=1' | tee /etc/yum.repos.d/sensu.repo
-
-RUN yum install -y sensu-${sensu_release}.el7.x86_64 uchiwa supervisor
+RUN apt-get update \
+  && apt-get install -y wget apt-utils apt-transport-https gnupg2 \
+  && wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add - \
+  && echo "deb     https://sensu.global.ssl.fastly.net/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list \
+  && apt-get update \
+  && apt-get install -y sensu
 
 # Cleanup
 RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
@@ -61,15 +54,12 @@ RUN chown -R sensu:sensu /etc/sensu \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
 
-COPY config/transport.json /etc/sensu/conf.d/
-COPY config/redis.json /etc/sensu/conf.d/
-COPY config/checks.json /etc/sensu/conf.d/
-COPY config/rabbitmq.json /etc/sensu/conf.d/
+COPY /config/ /etc/sensu/conf.d/
 COPY config.json /etc/sensu/
-COPY config/config.json /etc/sensu/uchiwa.json
+COPY uchiwa.json /etc/sensu/dashboard.d/
 
 EXPOSE 4567
 EXPOSE 3000
 
-CMD ["sh","-c","/opt/sensu/bin/sensu-server && /opt/sensu/bin/sensu-api && /opt/sensu/bin/sensu-client"]
+CMD ["/opt/sensu/bin/sensu-server"]
 

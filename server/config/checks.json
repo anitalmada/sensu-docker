@@ -1,0 +1,35 @@
+{
+  "checks": {
+    "cron": {
+      "command": "check-process.rb -p cron",
+      "interval": 60,
+      "standalone": true
+    },
+    "cpu_metrics": {
+      "type": "metric",
+      "command": "metrics-cpu.rb",
+      "standalone": true,
+      "interval": 10
+    },
+    "check_disk_usage": {
+	"command": "check-disk-usage.rb -w 80 -c 90",
+	"interval": 10,
+        "standalone": true
+	},
+    "check_ports": {
+	"command": "check-ports.rb -h 127.0.0.1 -p 3030,22,25 -t 30",
+	"interval": 10,
+        "standalone": true
+	},
+    "uchiwa": {
+	"command": "check-process.rb -p uchiwa",
+	"interval": 10,
+        "standalone": true
+	},
+    "check_memory_percent": {
+	"command": "check-memory-percent.rb -w 70 -c 80",
+	"interval": 30,
+        "standalone": true
+	}
+  }
+}
