@@ -55,7 +55,6 @@ RUN chown -R sensu:sensu /etc/sensu \
     && sensu-install -p memory-checks
 
 COPY /config/ /etc/sensu/conf.d/
-COPY config.json /etc/sensu/
 COPY uchiwa.json /etc/sensu/dashboard.d/
 
 EXPOSE 3000
