@@ -58,8 +58,8 @@ COPY /config/ /etc/sensu/conf.d/
 COPY config.json /etc/sensu/
 COPY uchiwa.json /etc/sensu/dashboard.d/
 
-EXPOSE 4567
 EXPOSE 3000
+EXPOSE 4567
 
 CMD ["/opt/sensu/bin/sensu-server"]
 

@@ -9,12 +9,12 @@
     "prefetch": 50
   },
   "redis": {
-    "host": "192.168.0.2",
+    "host": "redis",
     "port": 6379,
     "auto_reconnect": true
   },
   "api": {
-    "host": "sensu",
+    "host": "api",
     "bind": "0.0.0.0",
     "port": 4567
   }
