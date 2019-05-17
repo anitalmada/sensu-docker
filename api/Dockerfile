@@ -7,7 +7,7 @@ RUN apt-get update \
   && wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add - \
   && echo "deb     https://sensu.global.ssl.fastly.net/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list \
   && apt-get update \
-  && apt-get install -y sensu supervisor
+  && apt-get install -y sensu
 
 # Cleanup
 RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
@@ -48,19 +48,12 @@ ENV TRANSPORT_NAME=rabbitmq \
     # -W0 avoids Sensu process output to be spoiled with ruby 2.4 warnings
     RUBYOPT=-W0
 
-RUN chown -R sensu:sensu /etc/sensu \
-    && sensu-install -p cpu-checks \
-    && sensu-install -p disk-checks \
-    && sensu-install -p network-checks \
-    && sensu-install -p memory-checks
+RUN chown -R sensu:sensu /etc/sensu 
 
-COPY /config/ /etc/sensu/conf.d/
+COPY config/ /etc/sensu/conf.d/
 COPY config.json /etc/sensu/
-COPY uchiwa.json /etc/sensu/dashboard.d/
-ADD supervisord.conf /etc/supervisor.conf
 
 EXPOSE 4567
-EXPOSE 3000
 
-CMD ["supervisord","-c","/etc/supervisor.conf"]
+CMD ["/opt/sensu/bin/sensu-api"]
 

@@ -56,11 +56,8 @@ RUN chown -R sensu:sensu /etc/sensu \
     && sensu-install -p network-checks \
     && sensu-install -p memory-checks
 
-COPY config/transport.json /etc/sensu/conf.d/
-COPY config/rabbitmq.json /etc/sensu/conf.d/
-COPY config/client-local.json /etc/sensu/conf.d/client.json
-COPY config/redis.json /etc/sensu/conf.d/
-COPY config/checks.json /etc/sensu/conf.d/
+COPY config/ /etc/sensu/conf.d/
+COPY client-local.json /etc/sensu/conf.d/client.json
 
 EXPOSE 3030
 

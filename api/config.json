@@ -1,0 +1,22 @@
+{
+  "rabbitmq": {
+    "host": "rabbitmq",
+    "port": 5672,
+    "vhost": "/sensu",
+    "user": "sensu",
+    "password": "sensu",
+    "heartbeat": 30,
+    "prefetch": 50
+  },
+  "redis": {
+    "host": "redis",
+    "port": 6379,
+    "auto_reconnect": true
+  },
+  "api": {
+    "host": "127.0.0.1",
+    "bind": "0.0.0.0",
+    "port": 4567
+  }
+ }
+
