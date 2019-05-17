@@ -48,12 +48,9 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./uchiwa.json:/etc/sensu/uchiwa.json:rw
+      - ./uchiwa.json:/etc/sensu/uchiwa.json:ro
     depends_on:
       - sensu
-    environment:
-      SENSU_DC_NAME: "sensu-server"
-      SENSU_HOSTNAME: "sensu"
     networks:
       - sensu_net
 networks:

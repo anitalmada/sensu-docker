@@ -14,7 +14,7 @@ gpgkey=https://repositories.sensuapp.org/yum/pubkey.gpg\n\
 gpgcheck=1\n\
 enabled=1' | tee /etc/yum.repos.d/sensu.repo
 
-RUN yum install -y sensu-${sensu_release}.el7.x86_64
+RUN yum install -y sensu-${sensu_release}.el7.x86_64 uchiwa supervisor
 
 # Cleanup
 RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
@@ -71,4 +71,5 @@ COPY config/config.json /etc/sensu/uchiwa.json
 EXPOSE 4567
 EXPOSE 3000
 
-CMD ["/opt/sensu/bin/sensu-server"]
+CMD ["sh","-c","/opt/sensu/bin/sensu-server && /opt/sensu/bin/sensu-api && /opt/sensu/bin/sensu-client"]
+
