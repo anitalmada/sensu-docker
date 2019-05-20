@@ -7,6 +7,6 @@
     "password": "sensu",
     "heartbeat": 30,
     "prefetch": 50
-    }
   }
+}
 

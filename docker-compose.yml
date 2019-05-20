@@ -1,45 +1,38 @@
 version: '3.7'
 services:
   redis:
-    image: redis
-    restart: always
+    image: redis:alpine
     command: redis-server --appendonly yes
     ports:
       - "6379:6379"
-    expose:
-      - "6379/tcp"
-    networks:
-      - sensu_net
   sensu:
     hostname: sensu
     build:
       context: server/
       dockerfile: Dockerfile 
-    image: sensu
-    restart: always 
     depends_on:
       - redis
       - rabbitmq
-    networks:
-      - sensu_net
-    volumes:
-      - ./server:/etc/sensu:ro
+  api:
+    hostname: api
+    build:
+      context: api/
+      dockerfile: Dockerfile.api 
+    depends_on:
+      - redis
+      - rabbitmq
     ports:
       - "4567:4567"
-    expose:
-      - "4567/tcp"
   sensu-client:
     hostname: sensu-client
     build:
       context: client/
       dockerfile: Dockerfile.client
-    image: sensu-client
-    networks:
-      - sensu_net
+    depends_on:
+      - redis
+      - rabbitmq
     ports:
       - "3030:3030"
-    volumes:
-      - ./client:/etc/sensu:rw
   rabbitmq:
     image:       rabbitmq
     hostname:    rabbitmq
@@ -49,17 +42,14 @@ services:
     ports:
       - "5672:5672"   # daemon API
       - "15672:15672" # management API
-    networks:
-      - sensu_net
   uchiwa:
     image:       uchiwa/uchiwa
     hostname:    uchiwa
     restart:     always
+    depends_on:
+      - rabbitmq
+      - sensu
     volumes:
       - ./uchiwa-config:/config    
     ports:
       - "3000:3000"
-    networks:
-      - sensu_net
-networks:
-  sensu_net:

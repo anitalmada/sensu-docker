@@ -7,20 +7,12 @@ RUN apt-get update \
   && wget -q https://sensu.global.ssl.fastly.net/apt/pubkey.gpg -O- | apt-key add - \
   && echo "deb     https://sensu.global.ssl.fastly.net/apt sensu main" | tee /etc/apt/sources.list.d/sensu.list \
   && apt-get update \
-  && apt-get install -y sensu
+  && apt-get install -y sensu wget supervisor \
+  && mkdir -p /var/run/sshd /var/log/supervisor
 
-# Cleanup
-RUN rm -rf /opt/sensu/embedded/lib/ruby/gems/2.4.0/{cache,doc}/* &&\
-    find /opt/sensu/embedded/lib/ruby/gems/ -name "*.o" -delete
 
-RUN chown -R sensu:sensu /etc/sensu \
-    && sensu-install -p cpu-checks \
-    && sensu-install -p disk-checks \
-    && sensu-install -p network-checks \
-    && sensu-install -p memory-checks
+COPY ./conf.d/ /etc/sensu/conf.d/
+COPY config.json /etc/sensu/
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY ./config/ /etc/sensu/conf.d/
-COPY ./config.json /etc/sensu/
-#COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
-
-CMD ["/opt/sensu/bin/sensu-server"]
+CMD ["/usr/bin/supervisord"]

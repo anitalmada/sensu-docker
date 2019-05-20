@@ -1,6 +1,6 @@
 {"sensu": [{
     "name": "sensu",
-    "host": "sensu",
+    "host": "api",
     "port": 4567}],
   
   "uchiwa": {

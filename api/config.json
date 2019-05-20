@@ -5,5 +5,8 @@
     "vhost": "/sensu",
     "user": "sensu",
     "password": "sensu"
- }
+    },
+  "redis": {
+    "host": "redis"
+  }
 }

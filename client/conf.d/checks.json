@@ -12,22 +12,22 @@
       "interval": 10
     },
     "check_disk_usage": {
-        "command": "check-disk-usage.rb -w 80 -c 90",
+        "command": "/opt/sensu/embedded/bin/check-disk-usage.rb -w 80 -c 90",
         "interval": 10,
         "standalone": true
         },
     "check_ports": {
-        "command": "check-ports.rb -h 127.0.0.1 -p 3030,22,25 -t 30",
+        "command": "/opt/sensu/embedded/bin/check-ports.rb -h 127.0.0.1 -p 3030,22,25 -t 30",
         "interval": 10,
         "standalone": true
         },
     "uchiwa": {
-        "command": "check-process.rb -p uchiwa",
+        "command": "/opt/sensu/embedded/bin/check-process.rb -p uchiwa",
         "interval": 10,
         "standalone": true
         },
     "check_memory_percent": {
-        "command": "check-memory-percent.rb -w 70 -c 80",
+        "command": "/opt/sensu/embedded/bin/check-memory-percent.rb -w 70 -c 80",
         "interval": 30,
         "standalone": true
         }
