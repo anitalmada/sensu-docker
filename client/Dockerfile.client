@@ -14,7 +14,8 @@ RUN chown -R sensu:sensu /etc/sensu \
     && sensu-install -p cpu-checks \
     && sensu-install -p disk-checks \
     && sensu-install -p network-checks \
-    && sensu-install -p memory-checks
+    && sensu-install -p memory-checks \
+    && sensu-install -p process-checks
 
 COPY ./conf.d/* /etc/sensu/conf.d/
 COPY config.json /etc/sensu/

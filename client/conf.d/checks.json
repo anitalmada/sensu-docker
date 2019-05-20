@@ -1,13 +1,8 @@
 {
   "checks": {
-    "cron": {
-      "command": "/opt/sensu/embedded/bin/check-process.rb -p cron",
-      "interval": 60,
-      "standalone": true
-    },
     "cpu_metrics": {
       "type": "metric",
-      "command": "/usr/bin/echo 'hola mundo'",
+      "command": "/opt/sensu/embedded/bin/metrics-cpu.rb",
       "standalone": true,
       "interval": 10
     },
