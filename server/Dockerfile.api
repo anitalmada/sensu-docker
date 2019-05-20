@@ -23,4 +23,6 @@ COPY ./config/ /etc/sensu/conf.d/
 COPY ./config.json /etc/sensu/
 #COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD ["/opt/sensu/bin/sensu-server"]
+EXPOSE 4567
+
+CMD ["/opt/sensu/bin/sensu-api"]
