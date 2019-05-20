@@ -6,6 +6,8 @@ services:
     command: redis-server --appendonly yes
     ports:
       - "6379:6379"
+    expose:
+      - "6379/tcp"
     networks:
       - sensu_net
   sensu:
@@ -20,6 +22,12 @@ services:
       - rabbitmq
     networks:
       - sensu_net
+    volumes:
+      - ./server:/etc/sensu:ro
+    ports:
+      - "4567:4567"
+    expose:
+      - "4567/tcp"
   sensu-client:
     hostname: sensu-client
     build:
@@ -28,24 +36,10 @@ services:
     image: sensu-client
     networks:
       - sensu_net
-    depends_on:
-      - sensu
-  api:
-    hostname: api
-    build:
-      context: api/
-    image: sensu-api
-    restart: always
-    depends_on:
-      - sensu
-      - redis
-      - rabbitmq  
     ports:
-      - "4567:4567"  
-    expose:
-      - "4567"  
-    networks:
-      - sensu_net
+      - "3030:3030"
+    volumes:
+      - ./client:/etc/sensu:rw
   rabbitmq:
     image:       rabbitmq
     hostname:    rabbitmq
@@ -65,10 +59,6 @@ services:
       - ./uchiwa-config:/config    
     ports:
       - "3000:3000"
-    depends_on:
-      - redis
-      - sensu
-      - api
     networks:
       - sensu_net
 networks:
